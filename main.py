@@ -31,7 +31,6 @@ file_menu.add_command(label='Save', accelerator='Ctrl+S',
 file_menu.add_command(label='Save as', accelerator='Shift+Ctrl+S')
 file_menu.add_separator()
 file_menu.add_command(label='Exit', accelerator='Alt+F4')
-menu_bar.add_cascade(label='File', menu=file_menu)
 
 
 edit_menu = tk.Menu(menu_bar, tearoff=0)
