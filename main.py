@@ -54,7 +54,36 @@ edit_menu.add_command(label='Select All', underline=7, accelerator='Ctrl+A')
 
 view_menu = tk.Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label='View', menu=view_menu)
+show_line_number = tk.IntVar()
+show_line_number.set(1)
+view_menu.add_checkbutton(label='Show Line Number', variable=show_line_number)
+show_cursor_info = tk.IntVar()
+show_cursor_info.set(1)
+highlight_line = tk.IntVar()
+view_menu.add_checkbutton(label='Highlight Current Line', onvalue=1,
+                          offvalue=0, variable=highlight_line)
+themes_menu = tk.Menu(menu_bar, tearoff=0)
+view_menu.add_cascade(label='Themes', menu=themes_menu)
 
+# themes
+# themes dictionary element
+color_schemes = {
+    'Default': '#000000.#FFFFFF',
+    'Greygarious': '#83406A.#D1D4D1',
+    'Aquamarine': '#5B8340.#D1E7E0',
+    'Bold Beige': '#4B4620.#FFF0E1',
+    'Cobalt Blue': '#ffffBB.#3333aa',
+    'Olive Green': '#D1E7E0.#5B8340',
+    'Night Mode': '#FFFFFF.#000000',
+}
+# themes dictionary element
+theme_choice = tk.StringVar()
+theme_choice.set('Default')
+for k in sorted(color_schemes):
+    themes_menu.add_radiobutton(label=k, variable=theme_choice)
+
+
+# themes
 
 about_menu = tk.Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label='About', menu=about_menu)
@@ -69,7 +98,7 @@ shortcut_bar = tk.Frame(root, height=25, background='light sea green')
 shortcut_bar.pack(expand='no', fill='x')
 
 line_number_bar = tk.Text(root, width=4, padx=3, takefocus=0, border=0,
-	background='khaki', state='disabled', wrap='none')
+                          background='khaki', state='disabled', wrap='none')
 line_number_bar.pack(side='left', fill='y')
 
 
