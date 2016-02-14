@@ -7,32 +7,39 @@ root = tk.Tk()
 root.geometry('800x600')
 root.title(PROGRAM_NAME)
 
+
+# selection function
+
+def select_all(event=None):
+    content_text.tag_add('sel', '1.0', 'end')
+    return 'break'
+
 # basic text processing functions
 
 
 def undo():
     content_text.event_generate('<<Undo>>')
-    return "break"
+    return 'break'
 
 
 def redo(event=None):
     content_text.event_generate('<<Redo>>')
-    return "break"
+    return 'break'
 
 
 def cut():
     content_text.event_generate('<<Cut>>')
-    return "break"
+    return 'break'
 
 
 def copy():
     content_text.event_generate('<<Copy>>')
-    return "break"
+    return 'break'
 
 
 def paste():
     content_text.event_generate('<<Paste>>')
-    return "break"
+    return 'break'
 
 
 # menu icons
@@ -77,7 +84,8 @@ edit_menu.add_command(label='Paste', accelerator='Ctrl+V',
 edit_menu.add_separator()
 edit_menu.add_command(label='Find', underline=0, accelerator='Ctrl+F')
 edit_menu.add_separator()
-edit_menu.add_command(label='Select All', underline=7, accelerator='Ctrl+A')
+edit_menu.add_command(label='Select All', underline=7, accelerator='Ctrl+A',
+                      command=select_all)
 
 
 view_menu = tk.Menu(menu_bar, tearoff=0)
@@ -138,12 +146,13 @@ scroll_bar.config(command=content_text.yview)
 scroll_bar.pack(side='right', fill='y')
 
 
-
 # bind redo to 'Ctrl + y'
 
 
 content_text.bind('<Control-y>', redo)
 content_text.bind('<Control-Y>', redo)
+content_text.bind('<Control-a>', select_all)
+content_text.bind('<Control-A>', select_all)
 
 
 root.mainloop()
