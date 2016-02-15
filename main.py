@@ -52,14 +52,23 @@ def find_text(event=None):
     tk.Label(search_toplevel, text='Find All: ').grid(row=0,
                                                       column=0, sticky='e')
     search_entry_widget = tk.Entry(search_toplevel, width=25)
-    search_entry_widget(row=0, column=1, padx=2, pady=2, sticky='we')
+    search_entry_widget.grid(row=0, column=1, padx=2, pady=2, sticky='we')
     search_entry_widget.focus_set()
     ignore_case_value = tk.IntVar()
     tk.Checkbutton(search_toplevel, text='Ignore Case',
                    variable=ignore_case_value).grid(
         row=1, column=1, sticky='e', padx=2, pady=2)
-    tk.Button(search_toplevel)
-
+    tk.Button(search_toplevel, text='Find All', underline=0,
+              command=lambda: search_output(search_entry_widget.get(),
+                                            ignore_case_value.get(
+              ), content_text, search_toplevel,
+                  search_entry_widget)).grid(row=0, column=2, sticky='e' +
+                                             'w', padx=2, pady=2)
+    def close_search_window():
+        content_text.tag_remove('match', '1.0', END)
+        search_toplevel.destroy()
+        search_toplevel.protocol('WM_DELETE_WINDOW', close_search_window)
+        return 'break'
 
 # menu icons
 new_file_icon = tk.PhotoImage(file='icons/new_file.gif')
