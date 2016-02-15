@@ -42,6 +42,25 @@ def paste():
     return 'break'
 
 
+# text search/find function
+
+def find_text(event=None):
+    search_toplevel = tk.Toplevel(root)
+    search_toplevel.title('Find Text')
+    search_toplevel.transient(root)
+    search_toplevel.resizable(False, False)
+    tk.Label(search_toplevel, text='Find All: ').grid(row=0,
+                                                      column=0, sticky='e')
+    search_entry_widget = tk.Entry(search_toplevel, width=25)
+    search_entry_widget(row=0, column=1, padx=2, pady=2, sticky='we')
+    search_entry_widget.focus_set()
+    ignore_case_value = tk.IntVar()
+    tk.Checkbutton(search_toplevel, text='Ignore Case',
+                   variable=ignore_case_value).grid(
+        row=1, column=1, sticky='e', padx=2, pady=2)
+    tk.Button(search_toplevel)
+
+
 # menu icons
 new_file_icon = tk.PhotoImage(file='icons/new_file.gif')
 open_file_icon = tk.PhotoImage(file='icons/open_file.gif')
@@ -82,7 +101,8 @@ edit_menu.add_command(label='Copy', accelerator='Ctrl+C',
 edit_menu.add_command(label='Paste', accelerator='Ctrl+V',
                       compound='left', image=paste_icon, command=paste)
 edit_menu.add_separator()
-edit_menu.add_command(label='Find', underline=0, accelerator='Ctrl+F')
+edit_menu.add_command(label='Find', underline=0, accelerator='Ctrl+F',
+                      command=find_text)
 edit_menu.add_separator()
 edit_menu.add_command(label='Select All', underline=7, accelerator='Ctrl+A',
                       command=select_all)
@@ -146,9 +166,11 @@ scroll_bar.config(command=content_text.yview)
 scroll_bar.pack(side='right', fill='y')
 
 
-# bind redo to 'Ctrl + y'
+# bind keystrokes to shortcuts
 
 
+content_text.bind('<Control-f>', find_text)
+content_text.bind('<Control-F>', find_text)
 content_text.bind('<Control-y>', redo)
 content_text.bind('<Control-Y>', redo)
 content_text.bind('<Control-a>', select_all)
