@@ -64,11 +64,34 @@ def find_text(event=None):
               ), content_text, search_toplevel,
                   search_entry_widget)).grid(row=0, column=2, sticky='e' +
                                              'w', padx=2, pady=2)
+
     def close_search_window():
-        content_text.tag_remove('match', '1.0', END)
+        content_text.tag_remove('match', '1.0', tk.END)
         search_toplevel.destroy()
-        search_toplevel.protocol('WM_DELETE_WINDOW', close_search_window)
-        return 'break'
+    search_toplevel.protocol('WM_DELETE_WINDOW', close_search_window)
+    return 'break'
+
+
+def search_output(needle, if_ignore_case, content_text,
+                  search_toplevel, search_box):
+    content_text.tag_remove('match', '1.0', tk.END)
+    matches_found = 0
+    if needle:
+        start_pos = '1.0'
+        while True:
+            start_pos = content_text.search(needle, start_pos,
+                                            nocase=if_ignore_case, stopindex=tk.END)
+            if not start_pos:
+                break
+            end_pos = '{}+{}c'.format(start_pos, len(needle))
+            content_text.tag_add('match', start_pos, end_pos)
+            matches_found += 1
+            start_pos = end_pos
+        content_text.tag_config('match', foreground='red', background='yellow')
+    search_box.focus_set()
+    search_toplevel.title('{} matches found'.format(matches_found))
+
+
 
 # menu icons
 new_file_icon = tk.PhotoImage(file='icons/new_file.gif')
