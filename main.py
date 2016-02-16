@@ -1,4 +1,6 @@
 import tkinter as tk
+import tkinter.filedialog
+import os
 
 
 PROGRAM_NAME = 'Wordcafe'
@@ -6,6 +8,23 @@ PROGRAM_NAME = 'Wordcafe'
 root = tk.Tk()
 root.geometry('800x600')
 root.title(PROGRAM_NAME)
+file_name = None
+
+
+# open file function
+
+def open_file(event=None):
+    input_file_name = tkinter.filedialog.askopenfilename(
+        defaultextension='.txt', filetypes=[('All FIles', '*.*'), (
+            'Text Documents', '*.txt')])
+    if input_file_name:
+        global file_name
+        file_name = input_file_name
+        root.title('{} - {}'.format(os.path.basename(file_name),
+                                    PROGRAM_NAME))
+        content_text.delete(1.0, tk.END)
+        with open(file_name) as _file:
+            content_text.insert(1.0, _file.read())
 
 
 # selection function
@@ -92,7 +111,6 @@ def search_output(needle, if_ignore_case, content_text,
     search_toplevel.title('{} matches found'.format(matches_found))
 
 
-
 # menu icons
 new_file_icon = tk.PhotoImage(file='icons/new_file.gif')
 open_file_icon = tk.PhotoImage(file='icons/open_file.gif')
@@ -111,7 +129,8 @@ menu_bar.add_cascade(label='File', menu=file_menu)
 file_menu.add_command(label='New', accelerator='Ctrl+N',
                       compound='left', image=new_file_icon, underline=0)
 file_menu.add_command(label='Open', accelerator='Ctrl+O',
-                      compound='left', image=open_file_icon, underline=0)
+                      compound='left', image=open_file_icon, underline=0,
+                      command=open_file)
 file_menu.add_command(label='Save', accelerator='Ctrl+S',
                       compound='left', image=save_file_icon, underline=0)
 file_menu.add_command(label='Save as', accelerator='Shift+Ctrl+S')
